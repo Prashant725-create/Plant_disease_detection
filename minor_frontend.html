@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plant Disease Detector</title>
+  <link rel="stylesheet" href="style1.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1 class="plant">
+        <i class="fas fa-leaf"></i> Plant Disease Detection
+      </h1>
+      <p class="tagline">Upload a leaf image to detect diseases</p>
+    </header>
+
+    <main>
+      <div class="upload-section">
+        <div class="file-input">
+          <input class="imageip" type="file" id="imageInput" accept="image/*" />
+          <label for="imageInput" class="custom-file-label">
+            <i class="fas fa-upload"></i> Upload Image
+          </label>
+        </div>
+        
+        <button class="btn" id="predictBtn">
+          <i class="fas fa-search"></i> Predict Disease
+        </button>
+      </div>
+
+      <div class="content-area">
+        <div class="preview-container">
+          <h3>Image Preview</h3>
+          <div id="preview">
+            <div class="placeholder">
+              <i class="fas fa-image"></i>
+              <p>No image selected</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="result-container">
+          <h3>Detection Results</h3>
+          <div id="result">
+            <div class="placeholder">
+              <i class="fas fa-clipboard-check"></i>
+              <p>Results will appear here</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 Plant Disease Detection System</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
