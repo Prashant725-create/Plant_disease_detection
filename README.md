@@ -5,3 +5,5 @@ The project also includes a user-friendly interface that connects the backend (b
 
 Currently, the Jupyter notebook is configured to run within a UV virtual environment. However, this can be easily adjusted by modifying a few lines of code if a different environment is used.
 
+Provided below is the link of the dataset used:
+https://www.kaggle.com/datasets/arjuntejaswi/plant-village
