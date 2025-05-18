@@ -1,5 +1,6 @@
 import os
 import logging, json
+import requests
 from io import BytesIO
 
 from flask import Flask, request, jsonify
@@ -19,7 +20,24 @@ logger = logging.getLogger("minor_backend")
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
-model = load_model('plant_disease_model.h5')
+def download_model_from_gdrive(gdrive_url, output_path):
+    if not os.path.exists(output_path):
+        print("Downloading model from Google Drive...")
+        response = requests.get(gdrive_url)
+        with open(output_path, "wb") as f:
+            f.write(response.content)
+        print("Download complete.")
+
+# Google Drive direct download link
+MODEL_URL = "https://drive.google.com/uc?export=download&id=1Jmk3XSFxBk6-b51zs1stx8wyzAN5wqAJ"
+# Local file name where the model will be saved
+MODEL_PATH = "plant_disease_model.h5"
+
+# Download the model only if not already downloaded
+download_model_from_gdrive(MODEL_URL, MODEL_PATH)
+
+# Load the model
+model = load_model(MODEL_PATH)
 
 # 1) Load class→index mapping from JSON
 with open("class_indices.json", "r", encoding="utf-8") as f:
