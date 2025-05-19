@@ -1,6 +1,6 @@
 import os
+import gdown
 import logging, json
-import requests
 from io import BytesIO
 
 from flask import Flask, request, jsonify
@@ -20,24 +20,27 @@ logger = logging.getLogger("minor_backend")
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
-def download_model_from_gdrive(gdrive_url, output_path):
+# ———— Download & load your model ————
+def download_model_from_gdrive(file_id: str,output_path: str):
     if not os.path.exists(output_path):
-        print("Downloading model from Google Drive...")
-        response = requests.get(gdrive_url)
-        with open(output_path, "wb") as f:
-            f.write(response.content)
+        print("Downloading model from Google Drive using gdown...")
+        gdown.download(id=file_id, output=output_path, quiet=False)
         print("Download complete.")
 
-# Google Drive direct download link
-MODEL_URL = "https://drive.google.com/uc?export=download&id=1Jmk3XSFxBk6-b51zs1stx8wyzAN5wqAJ"
-# Local file name where the model will be saved
+# Local filename for your model
 MODEL_PATH = "plant_disease_model.h5"
+# Extracted Google Drive file ID
+GDRIVE_ID = os.getenv("GDRIVE_ID", "1Jmk3XSFxBk6-b51zs1stx8wyzAN5wqAJ")
 
-# Download the model only if not already downloaded
-download_model_from_gdrive(MODEL_URL, MODEL_PATH)
+# Ensure the model is present
+download_model_from_gdrive(GDRIVE_ID, MODEL_PATH)
 
-# Load the model
-model = load_model(MODEL_PATH)
+# Now load it
+try:
+    model = load_model(MODEL_PATH)
+    print(f"Loaded model from {MODEL_PATH}")
+except Exception as e:
+    raise RuntimeError(f"Failed to load model at {MODEL_PATH}: {e}")
 
 # 1) Load class→index mapping from JSON
 with open("class_indices.json", "r", encoding="utf-8") as f:
