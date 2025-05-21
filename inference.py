@@ -2,6 +2,7 @@ import os
 import requests
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import traceback
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -31,11 +32,18 @@ def predict():
         return jsonify({"error": "No image uploaded"}), 400
 
     image_bytes = request.files['image'].read()
-    result = predict_image(image_bytes)
+    try:
+        prediction = predict_image(image_bytes)
+    except Exception as e:
+        # Dump the full traceback to stdout (Render will capture it in Logs)
+        traceback.print_exc()
+        # Return a JSON error so the front‑end sees something useful
+        return jsonify({
+            "error": "Inference failed on server",
+            "details": str(e)
+        }), 500
 
-    # the Hugging Face API will already return something like:
-    # [{"label": "...", "score": 0.95}, ...]
-    return jsonify(result)
+    return jsonify(prediction)
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 3000))

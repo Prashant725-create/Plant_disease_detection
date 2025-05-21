@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
       formData.append("image", file);
       
       // Send to backend
-      fetch("http://127.0.0.1:3000/predict", {
+      fetch("https://plant-disease-detection-7-usb7.onrender.com/predict", {
         method: "POST",
         body: formData
       })
