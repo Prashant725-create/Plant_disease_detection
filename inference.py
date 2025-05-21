@@ -5,7 +5,7 @@ from flask_cors import CORS
 import traceback
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app, origins="*")
 
 # 1) Pull your model‐repo name and token from the ENVIRONMENT:
 HF_MODEL = os.getenv("HF_MODEL", "Prashant-467/plant-disease-detector")
